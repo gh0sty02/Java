@@ -1,106 +1,140 @@
 package com.pranay;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
+    private static Scanner in = new Scanner(System.in);
+    private static Phone phone = new Phone("9096 0169 46");
 
     public static void main(String[] args) {
-	// write your code here
 
-        int[] arr = {4,5,2,1,};
-        int[] arrCyclic = {3,2,3,1,2,4,5,5,6};
+        boolean quit = false;
+        startPhone();
+        printActions();
 
-        cyclicSort(arrCyclic);
+        while(!quit){
+            System.out.println("Enter Action (Press 6 for all actions ) : ");
+            int action = in.nextInt();
+            in.nextLine();
 
-        System.out.println(Arrays.toString(arrCyclic));
-    }
 
-    static void cyclicSort(int[] arr){
-        int i = 0;
-        while(i < arr.length){
-            int correct = arr[i];
-            if(arr[i] != arr[correct]){
-                swap(arr, i, correct);
-            }else{
-                i++;
-            }
-        }
-    }
-
-    static void insertionSort(int[] arr){
-        for (int i = 0; i < arr.length - 1; i++) {
-            for (int j = i + 1; j > 0; j--) {
-                if(arr[j] < arr[j-1]){
-                    swap(arr, j, j-1);
-                }else{
+            switch (action){
+                case 0 :
+                    System.out.println("\n Shutting Down...");
+                    quit = true;
                     break;
-                }
+                case 1 :
+                    phone.printContacts();
+                    break;
+
+                case 2:
+                    addNewContact();
+                    break;
+                case 3:
+                    updateContact();
+                    break;
+                case 4:
+                    removeContact();
+                    break;
+                case 5:
+                    queryContact();
+                    break;
+                case 6:
+                    printActions();
+                    break;
+
+
             }
         }
     }
 
-    static void bubbleSort(int[] arr){
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 1; j < arr.length - i; j++) {
-                if(arr[j] < arr[j-1]){
-                    swap(arr, j, j-1);
-                }
-            }
+    private static void addNewContact(){
+        System.out.println("Enter Contact Name : ");
+        String name = in.nextLine();
+        System.out.println("Enter Phone : ");
+        String phoneNum = in.nextLine();
+
+        Contact newContact = Contact.addContact(name, phoneNum);
+
+        if(phone.addNewContact(newContact)){
+            System.out.println("Contact Created : " + newContact.getName() + " " + newContact.getNumber());
+        }else{
+            System.out.println("Failed, " + newContact.getName() + " already exists on phone !!");
+        }
+    }
+    private static void updateContact(){
+
+        System.out.println("Enter existing contact name : ");
+        String name = in.nextLine();
+        Contact existingContact =phone.queryContact(name);
+        if(existingContact == null){
+            System.out.println("Contact not found !");
+            return;
+        }
+
+        System.out.println("Enter new Contact name : ");
+        String newName = in.nextLine();
+        System.out.println("Enter new Phone number : ");
+        String newPhone = in.nextLine();
+
+        Contact newContact = Contact.addContact(newName, newPhone);
+
+        phone.updateContact(existingContact, newContact);
+        if(phone.updateContact(existingContact, newContact)){
+            System.out.println("Contact updated successfully !");
+        }else{
+            System.out.println("Error Updating Record");
+        }
+
+
+    }
+
+    private static void removeContact(){
+        System.out.println("Enter existing contact name : ");
+        String name = in.nextLine();
+        Contact existingContact =phone.queryContact(name);
+        if(existingContact == null){
+            System.out.println("Contact not found !");
+            return;
+        }
+
+        phone.removeContact(existingContact);
+        if(phone.removeContact(existingContact)){
+            System.out.println("Contact Removed Successfully");
+        }else{
+            System.out.println("Error removing the Contact");
         }
     }
 
-    static void selectionSort(int[] arr){
-        for (int i = 0; i < arr.length; i++) {
-            int lastIndex = arr.length - 1 - i;
-            int maxIndex = maxIndex( arr, 0 , lastIndex);
-            swap(arr, maxIndex, lastIndex);
-        }
-    }
+    private static void queryContact(){
 
-    static int maxIndex(int[] arr, int start, int end){
-        int max = 0;
-        for (int i = start ; i <= end; i++) {
-            if(arr[max] < arr[i]){
-                max = i;
-            }
-
+        System.out.println("Enter existing contact name : ");
+        String name = in.nextLine();
+        Contact existingContact =phone.queryContact(name);
+        if(existingContact == null){
+            System.out.println("Contact not found !");
+            return;
         }
 
-        return max;
-    }
-
-    static void swap(int[] arr, int first, int second){
-        int temp = arr[first];
-        arr[first] = arr[second];
-        arr[second] = temp;
-    }
-
-
-    static int[] getIntegers(){
-        Scanner sc = new Scanner(System.in);
-        int size = sc.nextInt();
-
-        int[] arr = new int[size];
-
-        for(int i = 0; i < arr.length ; i++){
-            arr[i] = sc.nextInt();
-        }
-
-        return arr;
+        System.out.println("Name : " + existingContact.getName() + " , Phone Number : " + existingContact.getNumber());
     }
 
 
 
-    static void sortIntegers(int[] arr){
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 1; j < arr.length - i; j++) {
-                if(arr[j] > arr[j-1]){
-                    swap(arr, j, j-1);
-                }
-            }
-        }
+    public static void startPhone(){
+        System.out.println("Starting Phone...");
     }
+
+    public static void printActions(){
+        System.out.println("Available actions : \n press ");
+        System.out.println("0  - to shutdown\n" +
+                "1  - to print contacts"+
+                "2  - to add a new contact\n" +
+                "3  - to update existing contact\n" +
+                "4  - to remove an existing contact\n" +
+                "5  - to query if an existing contact exists\n" +
+                "6  - to print a list of available actions\n" );
+        System.out.println("Choose your action : ");
+    }
+
 }
-
-
