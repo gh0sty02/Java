@@ -11,6 +11,8 @@ public class HashmapDemo {
         h.put("Hauri", 400);
 
 
+
+
         Set<String> keys = h.keySet();
         Collection<Integer> values = h.values();
         Set<Map.Entry<String, Integer>> entries = h.entrySet();
