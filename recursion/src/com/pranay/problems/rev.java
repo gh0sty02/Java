@@ -1,4 +1,4 @@
-package com.pranay;
+package com.pranay.problems;
 
 public class rev {
     static int sum;

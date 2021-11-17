@@ -1,4 +1,4 @@
-package com.pranay;
+package com.pranay.problems;
 
 public class Main {
 

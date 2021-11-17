@@ -1,4 +1,4 @@
-package com.pranay;
+package com.pranay.arrays;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.pranay;
+package com.pranay.problems;
 
 import java.util.*;
 import java.util.Arrays;

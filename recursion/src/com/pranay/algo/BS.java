@@ -1,4 +1,4 @@
-package com.pranay;
+package com.pranay.algo;
 
 public class BS {
     public static void main(String[] args) {
